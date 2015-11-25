@@ -1,6 +1,7 @@
 from tkinter import *
 import os
 import tkinter.messagebox
+import webbrowser
 
 def folder_init():
     input = popupFolder(root)
@@ -51,7 +52,15 @@ def build():
 def build_actual():
     os.system("source build/envsetup.sh && brunch "+device)
 
+def contact():
+    webbrowser.open('https://msfjarvis.tk/AAC-Redux')
 
+def bugreport():
+    webbrowser.open('https://github.com/MSF-Jarvis/AAC-Redux/issues')
+
+def popupabout():
+    input = popupAbout(root)
+    root.wait_window(input.top)
 class popupBuild(object):
     def __init__(self,master):
         top=self.top=Toplevel(master)
@@ -128,20 +137,56 @@ class popupFolder(object):
         self.value=self.e.get()
         self.top.destroy()
 
+class popupAbout(object):
+    def __init__(self,master):
+        top=self.top=Toplevel(master)
+        top.geometry("300x300")
+        self.l=Label(top,text="Android Auto Compiler - Redux")
+        self.l1=Label(top,text="v"+version)
+        self.l2=Label(top,text=" \n \n \n \n")
+        self.l3=Label(top,text="Credits")
+        self.l4=Label(top,text="Original Idea : @AndroGeek974(Damien Boyer) \n Coded by : @MSF-Jarvis(Harsh Shandilya) \n External Contributions : @faddat(Jacob Gadikian)")
+        self.l.pack()
+        self.l1.pack()
+        self.l2.pack()
+        self.l3.pack()
+        self.l4.pack()
+    def cleanup(self):
+        self.value=self.e.get()
+        self.top.destroy()
+
 class mainWindow(object):
     def __init__(self,master):
         self.master=master
-        self.l=Label(master,text="Android Auto Compiler v"+version+"\n"+"By @MSF-Jarvis"+"\n"+"Original Concept by @AndroGeek974",bg="lightblue")
+        self.m=Menu(master)
+        master.config(menu=self.m)
+        self.sm=Menu(self.m)
+        self.m.add_cascade(label="Menu", menu=self.sm)
+        self.sm.add_command(label="Install packages", command=fix_dependencies)
+        self.sm.add_command(label="Create ROM dir",command=folder_init)
+        self.sm.add_command(label="Select ROM",command=rom_init)
+        self.sm.add_separator()
+        self.sm.add_command(label="Sync sources",command=sync)
+        self.sm.add_command(label="Build ROM",command=build)
+        self.im=Menu(self.m)
+        self.m.add_cascade(label="Help", menu=self.im)
+        self.im.add_command(label="Contact Devs",command=contact)
+        self.im.add_command(label="Report a bug",command=bugreport)
+        self.im.add_separator()
+        self.im.add_command(label="About",command=popupabout)
+        self.l=Label(master,text="Android Auto Compiler v"+version+"\n"+"By @MSF-Jarvis"+"\n"+"Original Concept by @AndroGeek974",bg="#10bf94")
         self.l.pack(fill="x")
-        self.b=Button(master,text="Install required packages and applications",command=fix_dependencies)
+        self.l1=Label(master,text=" \n \n \n \n \n")
+        self.l1.pack()
+        self.b=Button(master,text="Install required packages and applications",command=fix_dependencies,bg="#e0c11c")
         self.b.pack()
-        self.b1=Button(master,text="Enter Folder name for sources",command=folder_init)
+        self.b1=Button(master,text="Enter Folder name for sources",command=folder_init,bg="#e0c11c")
         self.b1.pack()
-        self.b2=Button(master,text="Select ROM to sync sources",command=rom_init)
+        self.b2=Button(master,text="Select ROM to sync sources",command=rom_init,bg="#e0c11c")
         self.b2.pack()
-        self.b3=Button(master,text="Sync the sources",command=sync)
+        self.b3=Button(master,text="Sync the sources",command=sync,bg="#e0c11c")
         self.b3.pack()
-        self.b4=Button(master,text="Build ROM",command=build)
+        self.b4=Button(master,text="Build ROM",command=build,bg="#e0c11c")
         self.b4.pack()
 
 
@@ -150,5 +195,6 @@ if __name__ == "__main__":
     root=Tk()
     root.geometry("400x440")
     root.title("AAC-Redux v"+version)
+    root.configure(background="#a4073f")
     m=mainWindow(root)
     root.mainloop()
