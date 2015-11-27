@@ -19,6 +19,10 @@ def cm_init():
 def pa_init():
     input = popupPa(root)
     root.wait_window(input.top)
+    
+def teameos_init():
+    input = popupTeamEOS(root)
+    root.wait_window(input.top)
 
 def fix_dependencies():
     input = popupPack(root)
@@ -130,6 +134,21 @@ class popupPa(object):
         self.value=self.e.get()
         self.top.destroy()
 
+class popupTeamEOS(object):
+    def __init__(self,master):
+        top=self.top=Toplevel(master)
+        self.l=Label(top,text="Select the branch you want to sync...")
+        self.l.pack()
+        self.b1=Button(top,text="Lollipop 5.0",command=os.system("repo init -u git://github.com/TeamEOS/manifest.git -b lp5.0"))
+        self.b1.pack()
+        self.b2=Button(top,text="Lollipop 5.1",command=os.system("repo init -u git://github.com/TeamEOS/manifest.git -b lp5.1"))
+        self.b2.pack()
+        self.b3=Button(top,text="Marshmallow 6.0",command=os.system("repo init -u git://github.com/TeamEOS/manifest.git -b mm6.0"))
+        self.b3.pack()
+        
+    def cleanup(self):
+        self.value=self.e.get()
+        self.top.destroy()
 
 class popupRom(object):
     def __init__(self,master):
@@ -138,8 +157,10 @@ class popupRom(object):
         self.l.pack()
         self.b1=Button(top,text="CyanogenMod",command=cm_init)
         self.b2=Button(top,text="Paranoid Android",command=pa_init)
+        self.b3=Button(top,text="TeamEOS",command=teameos_init)
         self.b1.pack()
         self.b2.pack()
+        self.b3.pack()
 
     def cleanup(self):
         self.value=self.e.get()
