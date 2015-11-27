@@ -15,6 +15,10 @@ def rom_init():
 def cm_init():
     input = popupCm(root)
     root.wait_window(input.top)
+    
+def pa_init():
+    input = popupPa(root)
+    root.wait_window(input.top)
 
 def fix_dependencies():
     input = popupPack(root)
@@ -109,6 +113,22 @@ class popupCm(object):
     def cleanup(self):
         self.value=self.e.get()
         self.top.destroy()
+        
+class popupPa(object):
+    def __init__(self,master):
+        top=self.top=Toplevel(master)
+        self.l=Label(top,text="Select the branch you want to sync...")
+        self.l.pack()
+        self.b1=Button(top,text="PA MarshMallow",command=os.system("repo init -u git://github.com/AOSPA/manifest.git -b marshmallow"))
+        self.b1.pack()
+        self.b2=Button(top,text="PA Lollipop 5.1",command=os.system("repo init -u git://github.com/AOSPA/manifest.git -b lollipop-mr1-rebase"))
+        self.b2.pack()
+        self.b3=Button(top,text="PA KitKat",command=os.system("repo init -u git://github.com/AOSPA/manifest.git -b kitkat"))
+        self.b3.pack()
+
+    def cleanup(self):
+        self.value=self.e.get()
+        self.top.destroy()
 
 
 class popupRom(object):
@@ -117,7 +137,9 @@ class popupRom(object):
         self.l=Label(top,text="Select the ROM you want to sync...")
         self.l.pack()
         self.b1=Button(top,text="CyanogenMod",command=cm_init)
+        self.b2=Button(top,text="Paranoid Android",command=pa_init)
         self.b1.pack()
+        self.b2.pack()
 
     def cleanup(self):
         self.value=self.e.get()
